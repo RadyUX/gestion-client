@@ -8,7 +8,7 @@ import sesseur from './sesseur'
 const app: Express = express()
 
 // config serveur
-const PORT = 5000
+const PORT = 3000
 app.listen(PORT, () => {
     console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });

@@ -24,12 +24,14 @@ router.post("/login", (req, res) => {
     });
 });
 
-
-router.get('/dashboard', checkAdmin,(req, res) => {
-    res.send('Bienvenue dans le tableau de bord admin!');
-    
+router.get('/dashboard', checkAdmin, (req, res) => {
+    getAllClients((err: Error, clients: any) => {
+        if (err) {
+            return res.status(500).send("Erreur lors de la récupération des clients");
+        }
+        res.render('dashboard', { clients });
+    });
 });
-
 
 
 export default router

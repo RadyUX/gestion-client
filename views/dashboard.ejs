@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tableau de bord admin</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue dans le tableau de bord admin!</h1>
+    <h2>Liste des clients</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% clients.forEach(client => { %>
+                <tr>
+                    <td><%= client.nom %></td>
+                    <td><%= client.prenom %></td>
+                    <td><%= client.email %></td>
+                    <td><%= client.telephone %></td>
+                    <td><%= client.adresse %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
