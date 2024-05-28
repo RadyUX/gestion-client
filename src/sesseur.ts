@@ -52,7 +52,8 @@ export const checkAdmin = (req: Request, res: Response, next: NextFunction) =>{
 //check les information de l'admin 
 export const authAdmin = (username: string, password: string, callback: (err: Error | null, admin?: Admin | undefined) => void) =>{
 // recherche dans notre db
-db.get<Admin>('SELECT * FROM Admin WHERE username = ? ', [username], (err, row)=>{
+console.log("Recherche pour l'username:", username);
+db.get<Admin>('SELECT * FROM Admin WHERE username = ?', [username], (err, row)=>{
     if (err) {
         console.error("Database error:", err.message);
         callback(new Error("Database error"));
@@ -60,6 +61,7 @@ db.get<Admin>('SELECT * FROM Admin WHERE username = ? ', [username], (err, row)=
     }
     if (!row) {
         console.error("Admin not found");
+        console.log(row);
         callback(new Error("Invalid credentials"));
         return;
     }
