@@ -1,13 +1,17 @@
 import express, {Express} from "express"
 import { checkAdmin, authAdmin } from "./sesseur"
-import { getAllAdmin } from "./sqlite";
+import { getAllClients } from "./sqlite";
+
 // import parseur.ts 
 const router = express.Router()
 
+//page de connexion
 router.get('/login', (req, res) => {
     res.render('login');
 });
 
+
+// login admin
 router.post("/login", (req, res) => {
     const { username, password } = req.body;
     authAdmin(username, password, (err, admin) => {
@@ -21,19 +25,11 @@ router.post("/login", (req, res) => {
 });
 
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', checkAdmin,(req, res) => {
     res.send('Bienvenue dans le tableau de bord admin!');
+    
 });
 
 
-router.get('/admins',  (req, res) => {
-    getAllAdmin((err, admins) => {
-        if (err) {
-            res.status(500).send("Erreur lors de la récupération des administrateurs");
-            return;
-        }
-        res.render('admin', { admins });
-    });
-});
 
 export default router
