@@ -1,19 +1,25 @@
 import express, { Express } from 'express';
 import  path from 'path'
 import url from 'url'
-//import routeur from './routeur.ts'
-//import sesseur from './sesseur.ts'
+import router from "./routeur"
+import sesseur from './sesseur'
 
 
 const app: Express = express()
 
 // config serveur
-const PORT = 3000
+const PORT = 5000
 app.listen(PORT, () => {
     console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });
 
 
 //middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(sesseur);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "../views"));
 
-//route
+
+app.use('/', router)
