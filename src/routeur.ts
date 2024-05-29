@@ -1,8 +1,11 @@
 import express, {Express} from "express"
 import { checkAdmin, authAdmin } from "./sesseur"
 import { getAllClients } from "./sqlite";
-import parser from "./parseur";
 import db from "./sqlite";
+import multer from "multer";
+import { importClients } from "./parseur";
+
+const upload = multer({ dest: 'uploads/' });
 
 import { deleteClient, updateClient, addClient } from "./sqlite";
 interface Client{
@@ -83,7 +86,7 @@ router.get("/update/:id", checkAdmin, (req, res) => {
     });
 });
 // methode update du client specifique
-parser.post("/dashboard/update/:id", checkAdmin, (req, res) => {
+router.post("/dashboard/update/:id", checkAdmin, (req, res) => {
     const id = parseInt(req.params.id, 10);
     const client = req.body;
     updateClient(id, client, (err: any) => {
@@ -110,7 +113,7 @@ router.post("/dashboard/delete/:id", checkAdmin,(req, res) => {
 });
 //route page de suppression de l'utilisateur specifique
 
-router.get("/del/:id", checkAdmin, (req, res)=>{
+router.get("/delete/:id", checkAdmin, (req, res)=>{
   const id = parseInt(req.params.id, 10)
   db.get("SELECT * FROM Client WHERE id = ?",[id], (err: Error | null, client: null)=>{
     if (err || !client) {
@@ -148,7 +151,7 @@ router.get("/dashboard/findPage", checkAdmin, (req, res) => {
             console.error(err);
             res.status(500).send("Database error");
         } else {
-            res.render("findPage", { clients }); // Notez que nous passons `clients` à la vue
+            res.render("findPage", { clients }); 
         }
     });
 });
@@ -156,8 +159,31 @@ router.get("/dashboard/findPage", checkAdmin, (req, res) => {
 
 //formulaire de recherche
 router.get("/dashboard/searchForm", checkAdmin, (req, res) => {
-    res.render("searchForm"); // Assurez-vous que ce fichier s'appelle `searchForm.ejs`
+    res.render("searchForm"); 
 });
 
-//formulaire de recherche
+
+router.get("/dashboard/export", checkAdmin, (req, res) => {
+    getAllClients((err: any, clients: any[]) => {
+        if (err) {
+            res.status(500).send("Database error");
+        } else {
+            const csv = clients.map(client => [
+                client.id,
+                client.prenom,
+                client.nom,
+                client.email,
+                client.adresse,
+                client.telephone,
+                client.password
+            ].join(",")).join("\n");
+
+            res.header("Content-Type", "text/csv");
+            res.attachment("clients.csv");
+            res.send(csv);
+        }
+    });
+});
+
+router.post('/dashboard/import', checkAdmin, upload.single('csvFile'), importClients);
 export default router

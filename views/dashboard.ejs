@@ -82,11 +82,11 @@
         </div>
         <div class="right-buttons">
             <!-- Importer et Exporter des clients en CSV -->
-            <form action="/import-csv" method="post" enctype="multipart/form-data" style="display: inline;">
+            <form action="/dashboard/import" method="post" enctype="multipart/form-data" style="display: inline;">
                 <input type="file" name="csvfile" accept=".csv" required>
                 <button type="submit" class="button">Uploader CSV</button>
             </form>
-            <a href="/export-csv" download>
+            <a href="/dashboard/export" download>
                 <button class="button">Sauvegarder CSV</button>
             </a>
         </div>
