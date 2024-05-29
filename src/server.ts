@@ -3,6 +3,7 @@ import  path from 'path'
 import url from 'url'
 import router from "./routeur"
 import sesseur from './sesseur'
+import parser from './parseur';
 
 
 const app: Express = express()
@@ -15,6 +16,7 @@ app.listen(PORT, () => {
 
 
 //middleware
+app.use('/', parser)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(sesseur);

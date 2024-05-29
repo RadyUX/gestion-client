@@ -25,7 +25,7 @@ export default db
 
 //get list client
 export const getAllClients = (callback: Function)=>{
-    db.all("SELECT * FROM Client WHERE", (err, row)=>{
+    db.all("SELECT * FROM Client", (err, row)=>{
         callback(err, row)
     })
 }
@@ -50,7 +50,7 @@ db.run("INSERT INTO Client (nom, prenom, email, telephone, adresse, password VAL
 }
 
 //delete client
-const deleteClient = (id: number, callback: Function) => {
+export const deleteClient = (id: number, callback: Function) => {
     db.run("DELETE FROM Client WHERE id = ?", [id], (err) => {
         callback(err);
     });

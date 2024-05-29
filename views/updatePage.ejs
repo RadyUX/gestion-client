@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un Client</title>
+</head>
+<body>
+    <h1>Modifier un Client</h1>
+
+    <form action="/dashboard/update/<%= client.id %>" method="post">
+        <div>
+            <label for="Nom">Nom:</label>
+            <input type="text" id="Nom" name="Nom" value="<%= client.nom %>" required>
+        </div>
+        <div>
+            <label for="Prenom">Prenom:</label>
+            <input type="text" id="Prenom" name="Prenom" value="<%= client.prenom %>">
+        </div>
+        <div>
+            <label for="Adresse">Adresse:</label>
+            <input type="text" id="Adresse" name="Adresse" value="<%= client.adresse %>">
+        </div>
+        <div>
+            <label for="Telephone">Telephone:</label>
+            <input type="text" id="Telephone" name="Telephone" value="<%= client.email %>">
+        </div>
+        <div>
+            <label for="Login">Login:</label>
+            <input type="text" id="Login" name="Login" value="<%= client.telaphone %>" required>
+        </div>
+        <div>
+            <label for="Password">Password:</label>
+            <input type="password" id="Password" name="Password">
+        </div>
+        <button type="submit">Modifier</button>
+    </form>
+    <a href="/">Retour</a>
+</body>
+</html>

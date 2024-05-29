@@ -1,20 +1,33 @@
-import session from 'express-session'
+import session, { Store } from 'express-session'
 import { Request, Response, NextFunction } from "express";
 import db from "./sqlite"
 import bcrypt from "bcrypt"
 import Admin  from "./types"
+import connectSqlite3 from 'connect-sqlite3';
+
 //session
+
+
+const SQLiteStore: any = connectSqlite3(session)
+
 const sesseur = session({
+    store: new SQLiteStore({
+      dir: '../',
+      db: 'Clients.db',
+      table: 'session'
+    }),
     secret: "secret",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-})
+    saveUninitialized: false,
+    cookie: { secure: 'auto', maxAge: 3600000 }
+  });
+  
 
 
 declare module "express-session" {
     interface SessionData {
         adminId?: number;
+        adminName?: string;
     }
 }
 
@@ -40,7 +53,7 @@ export const createAdmin = (username: string, password: string, callback: (err: 
 
 // LOGIN
 
-//check si l'utilisateur EST un admin sinon login
+//check si l'utilisateur EST un admin sinon pas authoriser
 export const checkAdmin = (req: Request, res: Response, next: NextFunction) =>{
     if(req.session && req.session.adminId){
         next()

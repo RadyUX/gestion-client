@@ -31,6 +31,21 @@ const clientData = Array.from({length: 5}, (_, index)=>({
     prenom: faker.name.firstName(),
     email: faker.internet.email(),
     adresse: faker.address.streetAddress(),
-    telephone: parseInt(faker.phone.number("########")),
+    telephone: parseInt(faker.phone.number("##########")),
     password: bcrypt.hashSync(faker.internet.password(), 10)
 }))
+
+clientData.forEach(client => {
+    db.run("INSERT INTO Client (id, nom, prenom,email, adresse, telephone, password) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+        [client.id, client.nom, client.prenom, client.email, client.adresse,client.telephone, client.password], 
+        function(err) {
+            if (err) {
+                console.error("Error inserting client data: ", err.message);
+            } else {
+                console.log("Client inserted successfully");
+            }
+        }
+    );
+});
+
+db.close();
