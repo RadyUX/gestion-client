@@ -16,12 +16,11 @@ app.listen(PORT, () => {
 
 
 //middleware
-app.use('/', parser)
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(sesseur);
+app.use(parser)
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
-
-
 app.use('/', router)

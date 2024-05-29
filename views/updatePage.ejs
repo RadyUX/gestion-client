@@ -17,20 +17,16 @@
             <input type="text" id="Prenom" name="Prenom" value="<%= client.prenom %>">
         </div>
         <div>
+            <label for="email">email</label>
+            <input type="text" id="email" name="email" value="<%= client.email %>">
+        </div>
+        <div>
             <label for="Adresse">Adresse:</label>
             <input type="text" id="Adresse" name="Adresse" value="<%= client.adresse %>">
         </div>
         <div>
-            <label for="Telephone">Telephone:</label>
-            <input type="text" id="Telephone" name="Telephone" value="<%= client.email %>">
-        </div>
-        <div>
-            <label for="Login">Login:</label>
-            <input type="text" id="Login" name="Login" value="<%= client.telaphone %>" required>
-        </div>
-        <div>
-            <label for="Password">Password:</label>
-            <input type="password" id="Password" name="Password">
+            <label for="telephone">telephone</label>
+            <input type="text" id="telephone" name="telephone" value="<%= client.telephone %>" required>
         </div>
         <button type="submit">Modifier</button>
     </form>

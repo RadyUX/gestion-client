@@ -63,7 +63,7 @@
                     <td><%= client.adresse %></td>
                     <td>
              |
-                        <a href="/del/<%= client.id %>">Supprimer</a>
+                        <a href="/delete/<%= client.id %>">Supprimer</a>
                         <a href="/update/<%= client.id %>">Modifier</a>
                     </td>
                 </tr>
@@ -71,14 +71,14 @@
         </tbody>
     </table>
 
-    <form action="/logout" method="post">
+    <form action="/logout" method="get">
         <button type="submit" class="button logout-button">Déconnexion</button>
     </form>
 
     <div class="button-container">
         <div class="left-buttons">
-            <button onclick="location.href='/add-client'" class="button">Ajouter Client</button>
-            <button onclick="location.href='/search-client'" class="button">Chercher Client</button>
+            <button onclick="location.href='/dashboard/addPage'" class="button">Ajouter Client</button>
+            <button onclick="location.href='/dashboard/searchForm'" class="button">Chercher Client</button>
         </div>
         <div class="right-buttons">
             <!-- Importer et Exporter des clients en CSV -->

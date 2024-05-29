@@ -3,7 +3,17 @@ import { checkAdmin, authAdmin } from "./sesseur"
 import { getAllClients } from "./sqlite";
 import parser from "./parseur";
 import db from "./sqlite";
-// import parseur.ts 
+
+import { deleteClient, updateClient, addClient } from "./sqlite";
+interface Client{
+    id: number;
+    nom: string;
+    prenom: string;
+    email: string;
+    telephone: string;
+    adresse: string;
+    password: string;
+}
 const router = express.Router()
 
 //connecter ?non page de connexion si oui acceuil
@@ -17,6 +27,10 @@ router.get('/', (req, res) => {
         res.render('login');
     }
 });
+
+router.get('/login', (req, res) => {
+    res.render('login')
+})
 
 // login admin
 router.post("/login", (req, res) => {
@@ -57,6 +71,7 @@ router.get("/dashboard", checkAdmin, (req, res) => {
     });
 });
 
+// route vers page de operation update 
 router.get("/update/:id", checkAdmin, (req, res) => {
     const id = parseInt(req.params.id, 10);
     db.get("SELECT * FROM Client WHERE id = ?", [id], (err: Error | null, client: any) => {
@@ -67,11 +82,33 @@ router.get("/update/:id", checkAdmin, (req, res) => {
         }
     });
 });
+// methode update du client specifique
+parser.post("/dashboard/update/:id", checkAdmin, (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const client = req.body;
+    updateClient(id, client, (err: any) => {
+        if (err) {
+            res.status(500).send("Database error");
+        } else {
+            res.redirect("/dashboard");
+        }
+    });
+});
 
+// 
 
-
-
-//operation route sur client
+// operation suppression du client
+router.post("/dashboard/delete/:id", checkAdmin,(req, res) => {
+    const id = parseInt(req.params.id, 10);
+    deleteClient(id, (err: any) => {
+        if (err) {
+            res.status(500).send("Database error");
+        } else {
+            res.redirect("/dashboard");
+        }
+    });
+});
+//route page de suppression de l'utilisateur specifique
 
 router.get("/del/:id", checkAdmin, (req, res)=>{
   const id = parseInt(req.params.id, 10)
@@ -83,4 +120,44 @@ router.get("/del/:id", checkAdmin, (req, res)=>{
     }
   })
 })
+
+//operation d'ajout
+router.post("/dashboard/add", checkAdmin, (req, res) => {
+    const client: Client = req.body;
+    addClient(client, (err: any) => {
+        if (err) {
+            res.status(500).send("Database error");
+        } else {
+            res.redirect("/dashboard");
+        }
+    });
+});
+
+//formulaire d'ajout route
+router.get("/dashboard/addPage", checkAdmin, (req, res) => {
+    res.render("addPage");
+});
+
+//operation de recherche
+router.get("/dashboard/findPage", checkAdmin, (req, res) => {
+    const nom = req.query.nom as string;
+
+
+    db.all("SELECT * FROM Client WHERE nom LIKE ?", [`%${nom}%`], (err: Error | null, clients: any[]) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Database error");
+        } else {
+            res.render("findPage", { clients }); // Notez que nous passons `clients` à la vue
+        }
+    });
+});
+
+
+//formulaire de recherche
+router.get("/dashboard/searchForm", checkAdmin, (req, res) => {
+    res.render("searchForm"); // Assurez-vous que ce fichier s'appelle `searchForm.ejs`
+});
+
+//formulaire de recherche
 export default router

@@ -15,12 +15,12 @@ const db = new sqlite3.Database('./Clients.db')
 }
 export default db
 
+const saltRounds = 10; // You can adjust the number of rounds based on security and performance requirements
 
- const hashedPwd = (password: string)=>{
-    const hashPwd = bcrypt.hashSync(password, 10)
-    return hashPwd
- }
-
+function hashPassword(password: string) {
+    return bcrypt.hashSync(password, saltRounds);
+}
+ 
 //CRUD CLIENT
 
 //get list client
@@ -40,7 +40,7 @@ export const getClientbyId = (id: number, callback: Function) =>{
 
 //add client
 export const addClient = (client: Client, callback: Function) =>{
-const hashpassword = hashedPwd(client.password);
+const hashpassword = hashPassword(client.password)
 db.run("INSERT INTO Client (nom, prenom, email, telephone, adresse, password VALUES (?, ?, ?, ?, ?, ?)",
 [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword],
 (err) => {
@@ -58,9 +58,9 @@ export const deleteClient = (id: number, callback: Function) => {
 
 //update client
 export const updateClient = (id: number, client: Client, callback: Function) => {
-    const hashpassword = hashedPwd(client.password);
+    const hashpassword = hashPassword(client.password)
     db.run("UPDATE Client SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ?, password = ? WHERE id = ?",
-        [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword, id],
+        [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword, client.id],
         (err) => {
             callback(err);
         }
