@@ -10,7 +10,9 @@
     "dev": "nodemon -w . --ext ts --exec ts-node src/server.ts",
     "seed": "ts-node seeds.ts",
     "start_dev": "pm2 start ecosystem.config.js --env development",
-    "start_prod": "pm2 start ecosystem.config.js --env production"
+    "start_prod": "pm2 start ecosystem.config.js --env production",
+    "sass-dev": "sass --watch scss/styles.scss:public/style.css --style=expanded"
+   
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +39,7 @@
     "install": "^0.13.0",
     "nodemon": "^3.1.1",
     "npm": "^10.8.0",
+    "sass": "^1.77.4",
     "ts-node": "^10.9.2"
   }
 }

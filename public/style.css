@@ -1,0 +1,22 @@
+body {
+  background-color: red;
+  color: white;
+}
+
+.button, .button-logout {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button-logout {
+  background-color: red;
+}
+
+/*# sourceMappingURL=style.css.map */

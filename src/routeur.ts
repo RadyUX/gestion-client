@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
    
     if (req.session.adminId) {
        
-        res.redirect('/acceuil');
+        res.redirect('/dashboard');
     } else {
      
         res.render('login');
@@ -45,7 +45,7 @@ router.post("/login", (req, res) => {
             // Stocker l'ID et le username de l'admin dans la session
             req.session.adminId = admin.id;
             req.session.adminName = admin.username; // Ajoutez cette ligne pour stocker le username dans la session
-            res.redirect("/acceuil");
+            res.redirect("dashboard")
         }
     });
 });
@@ -69,7 +69,8 @@ router.get("/dashboard", checkAdmin, (req, res) => {
         if (err) {
             res.status(500).send("Database error");
         } else {
-            res.render("dashboard", { clients });
+            const adminName = req.session.adminName
+            res.render("dashboard", { clients, adminName });
         }
     });
 });

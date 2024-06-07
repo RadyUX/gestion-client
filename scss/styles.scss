@@ -1,0 +1,23 @@
+$red: red;
+
+body{
+    background-color: $red;
+    color: white;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #4CAF50; // Vert pour les boutons généraux
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.button-logout {
+    @extend .button; // Étendre les styles de .button
+    background-color: $red; // Changer juste la couleur de fond
+}
