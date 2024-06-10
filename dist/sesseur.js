@@ -7,12 +7,19 @@ exports.authAdmin = exports.checkAdmin = exports.createAdmin = exports.hashPwd =
 const express_session_1 = __importDefault(require("express-session"));
 const sqlite_1 = __importDefault(require("./sqlite"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const connect_sqlite3_1 = __importDefault(require("connect-sqlite3"));
 //session
+const SQLiteStore = (0, connect_sqlite3_1.default)(express_session_1.default);
 const sesseur = (0, express_session_1.default)({
+    store: new SQLiteStore({
+        dir: '../',
+        db: 'Clients.db',
+        table: 'session'
+    }),
     secret: "secret",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
+    saveUninitialized: false,
+    cookie: { secure: 'auto', maxAge: 3600000 }
 });
 //sécurité: hasher le mdp
 const hashPwd = (password) => {
@@ -35,7 +42,7 @@ const createAdmin = (username, password, callback) => {
 };
 exports.createAdmin = createAdmin;
 // LOGIN
-//check si l'utilisateur EST un admin sinon login
+//check si l'utilisateur EST un admin sinon pas authoriser
 const checkAdmin = (req, res, next) => {
     if (req.session && req.session.adminId) {
         next();
@@ -78,3 +85,4 @@ const authAdmin = (username, password, callback) => {
 };
 exports.authAdmin = authAdmin;
 exports.default = sesseur;
+//# sourceMappingURL=sesseur.js.map

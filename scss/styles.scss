@@ -1,10 +1,140 @@
-$red: red;
+// sets
+
+$gl-ms         : "screen and (max-width: 23.5em)"; // up to 360px
+$gl-xs         : "screen and (max-width: 35.5em)"; // up to 568px
+$gl-sm         : "screen and (max-width: 48em)";   // max 768px
+$gl-md         : "screen and (max-width: 64em)";   // max 1024px
+$gl-lg         : "screen and (max-width: 80em)";   // max 1280px
+
+// table style
 
 body{
-    background-color: $red;
-    color: white;
+    margin: 0 30px;
+    background-color: #d1d1d1;
+   display: flex;
+   flex-direction: column;
+   gap: 50px;
 }
 
+
+
+.upload{
+    background-color: white;
+    width: 100%;
+    height: 400px;
+    margin: 40px 0;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed black;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+
+
+.btn-container{
+display: flex;
+
+
+}
+
+
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  
+    * {
+      position: relative;
+    }
+  
+    th, td {
+        font-size: 22px;
+     
+      text-align: left;
+      padding: 15px;
+  
+      &.l { text-align: right; }
+      &.c { text-align: center; }
+      &.r { text-align: center; }
+    }
+  
+    thead tr {
+      height: 60px;
+      background: #FFED86;
+      font-size: 22px;
+    }
+  
+    tbody tr {
+      height: 48px;
+      border-bottom: 1px solid #E3F1D5;
+  
+      &:last-child { border: 0; }
+    }
+  }
+  
+  @media #{$gl-xs} {
+    table {
+      display: block;
+  
+      > *, tr, td, th {
+        display: block;
+      }
+  
+      thead {
+        display: none;
+      }
+  
+      tbody tr {
+        height: auto;
+        padding: 8px 0;
+       
+  
+        td {
+          padding-left: 45%;
+          margin-bottom: 12px;
+          position: relative;
+         
+          &:last-child { margin-bottom: 0; }
+  
+          &:before {
+            content: attr(data-label);
+            font-weight: 700;
+            width: 40%;
+            left: 10px;
+            top: 0;
+            position: absolute;
+          }
+  
+          &:nth-child(1):before { content: "Nom"; }
+          &:nth-child(2):before { content: "Prenom"; }
+          &:nth-child(3):before { content: "Email"; }
+          &:nth-child(4):before { content: "Téléphone"; }
+          &:nth-child(5):before { content: "Adresse"; }
+        }
+
+      }
+  
+      .btn-container {
+        display: flex;
+        gap: 5px;
+        border: none;
+      }
+
+      
+     
+    }
+  }
+  
 .button {
     padding: 10px 20px;
     background-color: #4CAF50; // Vert pour les boutons généraux
@@ -17,7 +147,67 @@ body{
     display: inline-block;
 }
 
-.button-logout {
+.logout-button {
     @extend .button; // Étendre les styles de .button
-    background-color: $red; // Changer juste la couleur de fond
-}
+    background-color: red;
+  }
+ 
+  .navbar{
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+
+    .searchbar input{
+        border-radius: 30px;
+        border: none;
+        padding: 12px 15px;
+    }
+  }
+  
+
+  .delete{
+    button{
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    .editing{
+        button{
+            border: none;
+            background: transparent;
+        }
+    }
+       
+   
+  }
+
+  .save-mobile{
+    display: none;
+  }
+
+
+  .logout-button-mobile{display: none;}
+    
+  @media #{$gl-xs}{
+    .logout-button{
+        display: none;
+    }
+
+    .hello{
+        display: none;
+       
+      }
+      .save-mobile{
+        display: block;
+      }
+
+      .logout-button-mobile{display: block;}
+    
+    
+
+   
+  }
+
+  
+  

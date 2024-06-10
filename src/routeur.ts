@@ -102,28 +102,19 @@ router.post("/dashboard/update/:id", checkAdmin, (req, res) => {
 // 
 
 // operation suppression du client
-router.post("/dashboard/delete/:id", checkAdmin,(req, res) => {
+router.post("/delete/:id", checkAdmin,(req, res) => {
     const id = parseInt(req.params.id, 10);
+    const adminName = req.params.se
     deleteClient(id, (err: any) => {
         if (err) {
             res.status(500).send("Database error");
         } else {
-            res.redirect("/dashboard");
+            res.render("dashboard", {adminName});
+         console.log()
         }
     });
 });
-//route page de suppression de l'utilisateur specifique
 
-router.get("/delete/:id", checkAdmin, (req, res)=>{
-  const id = parseInt(req.params.id, 10)
-  db.get("SELECT * FROM Client WHERE id = ?",[id], (err: Error | null, client: null)=>{
-    if (err || !client) {
-        res.status(404).send("Client not found");
-    } else {
-        res.render("deletePage", { client });
-    }
-  })
-})
 
 //operation d'ajout
 router.post("/dashboard/add", checkAdmin, (req, res) => {
@@ -143,16 +134,16 @@ router.get("/dashboard/addPage", checkAdmin, (req, res) => {
 });
 
 //operation de recherche
-router.get("/dashboard/findPage", checkAdmin, (req, res) => {
-    const nom = req.query.nom as string;
+router.get("/dashboard/find", checkAdmin, (req, res) => {
+    const query = req.query.query as string;
 
 
-    db.all("SELECT * FROM Client WHERE nom LIKE ?", [`%${nom}%`], (err: Error | null, clients: any[]) => {
+    db.all("SELECT * FROM Client WHERE nom LIKE ? OR prenom LIKE ?", [`%${query}%`], (err: Error | null, clients: any[]) => {
         if (err) {
             console.error(err);
             res.status(500).send("Database error");
         } else {
-            res.render("findPage", { clients }); 
+            res.render("dashboard", { clients, adminName: req.session.adminName }); 
         }
     });
 });

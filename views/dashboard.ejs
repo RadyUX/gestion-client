@@ -3,46 +3,42 @@
 <html>
 <head>
     <title>Tableau de bord admin</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-        }
-        .button {
-            padding: 10px 20px;
-            background-color: #4CAF50; /* Green background for general buttons */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-        }
-        .logout-button {
-            background-color: #f44336; /* Red background for the logout button */
-        }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .left-buttons, .right-buttons {
-            display: flex;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
+    <nav class="navbar">
+   <h1 class="hello">Bonjour <%= adminName %></h1> 
+
+   <div class="searchbar">
+    <input type="text" id="searchInput" placeholder="Search..">
+    <button type="button" onclick="searchClients()">Rechercher</button>
+</div>
+
+    <form class="logout" href="/logout" method="get">
+        <button type="submit" class="button logout-button">Déconnexion</button>
+    </form>
+    <a href="/dashboard/export" download>
+        <button class="button" class="save-mobile">Sauvegarder CSV</button>
+    </a>
+</nav>  
+
+<div class="upload">
+     <img src="/cloud.png" alt="" class="icon" width="60px">
+     <form action="/dashboard/import" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+        <input type="file" name="csvfile" accept=".csv" required>
+        <button type="submit" class="button">Uploader CSV or drag and drop</button>
+    </form>
+   
+    <button onclick="location.href='/dashboard/addPage'" class="button"><img src="/plus.png" alt="plus" width="20"> Ajouter Client</button>
+
+    
+
+</div>
     
     
-    <h1>Bonjour <%= adminName %></h1> 
-    <h2>Liste des clients</h2>
     <table>
         <thead>
             <tr>
@@ -51,45 +47,42 @@
                 <th>Email</th>
                 <th>Téléphone</th>
                 <th>Adresse</th>
+                <th> <a href="/dashboard/export" download>
+                    <button class="button">Sauvegarder CSV</button>
+                </a></th>
             </tr>
         </thead>
         <tbody>
             <% clients.forEach(client => { %>
-                <tr>
+                <tr class="client">
                     <td><%= client.nom %></td>
                     <td><%= client.prenom %></td>
                     <td><%= client.email %></td>
                     <td><%= client.telephone %></td>
                     <td><%= client.adresse %></td>
-                    <td>
+                    <td class="btn-container">
              |
-                        <a href="/delete/<%= client.id %>">Supprimer</a>
-                        <a href="/update/<%= client.id %>">Modifier</a>
+                        <form action="/delete/<%= client.id %>" method="post" class="delete">
+                            <button type="submit"><img src="/delete.png" alt="" width="35px"/></button></form>
+                            
+                            <form action="/update/<%= client.id %>" method="post" class="delete">
+                                <button type="submit" ><img src="/editing.png" alt="" width="35px"/></button>
+                            </form>
                     </td>
                 </tr>
             <% }); %>
         </tbody>
     </table>
 
-    <form action="/logout" method="get">
-        <button type="submit" class="button logout-button">Déconnexion</button>
-    </form>
+ 
 
-    <div class="button-container">
-        <div class="left-buttons">
-            <button onclick="location.href='/dashboard/addPage'" class="button">Ajouter Client</button>
-            <button onclick="location.href='/dashboard/searchForm'" class="button">Chercher Client</button>
-        </div>
-        <div class="right-buttons">
-            <!-- Importer et Exporter des clients en CSV -->
-            <form action="/dashboard/import" method="post" enctype="multipart/form-data" style="display: inline;">
-                <input type="file" name="csvfile" accept=".csv" required>
-                <button type="submit" class="button">Uploader CSV</button>
-            </form>
-            <a href="/dashboard/export" download>
-                <button class="button">Sauvegarder CSV</button>
-            </a>
+    
+    <button type="submit" class="button logout-button logout-button-mobile">Déconnexion</button>
         </div>
     </div>
+
+
+   
+  
 </body>
 </html>
