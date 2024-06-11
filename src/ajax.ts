@@ -2,11 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', async (event) => {
             event.preventDefault();
-            console.log('click detected')
+            console.log('click detected');
+            const target = event.target as HTMLElement;
+            console.log(target);
             const clientId = (event.target as HTMLElement).getAttribute('data-id');
+            console.log(clientId);
             if (clientId) {
                 try {
-                    console.log('request send')
+                    console.log('request sent');
                     const response = await fetch(`/delete/${clientId}`, {
                         method: 'DELETE',
                         headers: {
@@ -16,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (response.ok) {
                         // Remove the row from the table
-                        const row = (event.target as HTMLElement).closest('tr');
+                        const buttonElement = event.target as HTMLElement;
+                        const row = buttonElement.closest('tr');
                         if (row) {
                             row.remove();
                         }
@@ -30,3 +34,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+

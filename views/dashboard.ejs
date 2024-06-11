@@ -63,9 +63,11 @@
                     <td class="btn-container">
              |
     
-             <button class="delete-btn" data-id="<%= client.id %>"><img src="/delete.png" alt="" width="35px"/></button>
+             <button class="delete-btn" data-id="<%= client.id %>">
+               delete
+            </button>
                             
-                            <form action="/update/<%= client.id %>" method="post" class="delete">
+                            <form action="/update/<%= client.id %>" method="get" class="delete">
                                 <button type="submit" ><img src="/editing.png" alt="" width="35px"/></button>
                             </form>
                     </td>
