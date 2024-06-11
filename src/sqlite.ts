@@ -41,7 +41,10 @@ export const getClientbyId = (id: number, callback: Function) =>{
 //add client
 export const addClient = (client: Client, callback: Function) =>{
 const hashpassword = hashPassword(client.password)
-db.run("INSERT INTO Client (nom, prenom, email, telephone, adresse, password VALUES (?, ?, ?, ?, ?, ?)",
+db.run(`
+        INSERT INTO Client (nom, prenom, email, telephone, adresse, password)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `,
 [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword],
 (err) => {
     callback(err)

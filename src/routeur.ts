@@ -123,6 +123,7 @@ router.post("/dashboard/add", checkAdmin, (req, res) => {
     addClient(client, (err: any) => {
         if (err) {
             res.status(500).send("Database error");
+            console.log(err)
         } else {
             res.redirect("/");
         }
