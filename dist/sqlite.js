@@ -30,7 +30,10 @@ exports.getClientbyId = getClientbyId;
 //add client
 const addClient = (client, callback) => {
     const hashpassword = hashPassword(client.password);
-    db.run("INSERT INTO Client (nom, prenom, email, telephone, adresse, password VALUES (?, ?, ?, ?, ?, ?)", [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword], (err) => {
+    db.run(`
+        INSERT INTO Client (nom, prenom, email, telephone, adresse, password)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `, [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword], (err) => {
         callback(err);
     });
 };
@@ -44,8 +47,7 @@ const deleteClient = (id, callback) => {
 exports.deleteClient = deleteClient;
 //update client
 const updateClient = (id, client, callback) => {
-    const hashpassword = hashPassword(client.password);
-    db.run("UPDATE Client SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ?, password = ? WHERE id = ?", [client.nom, client.prenom, client.email, client.telephone, client.adresse, hashpassword, client.id], (err) => {
+    db.run("UPDATE Client SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ? WHERE id = ?", [client.nom, client.prenom, client.email, client.telephone, client.adresse, id], (err) => {
         callback(err);
     });
 };

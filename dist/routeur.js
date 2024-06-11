@@ -39,10 +39,6 @@ router.post("/login", (req, res) => {
         }
     });
 });
-// page d'acceuil 
-router.get('/acceuil', sesseur_1.checkAdmin, (req, res) => {
-    res.render('acceuil', { adminName: req.session.adminName });
-});
 router.get("/logout", sesseur_1.checkAdmin, (req, res) => {
     req.session.destroy(() => {
         res.redirect("/login");
@@ -73,15 +69,19 @@ router.get("/update/:id", sesseur_1.checkAdmin, (req, res) => {
     });
 });
 // methode update du client specifique
-router.post("/dashboard/update/:id", sesseur_1.checkAdmin, (req, res) => {
+router.put("/dashboard/update/:id", sesseur_1.checkAdmin, (req, res) => {
     const id = parseInt(req.params.id, 10);
     const client = req.body;
+    console.log('Received update request for client:', id);
+    console.log('Client data:', client);
     (0, sqlite_3.updateClient)(id, client, (err) => {
         if (err) {
             res.status(500).send("Database error");
+            console.log(err);
         }
         else {
-            res.redirect("/dashboard");
+            res.redirect("/");
+            console.log('Client updated successfully');
         }
     });
 });
@@ -106,9 +106,10 @@ router.post("/dashboard/add", sesseur_1.checkAdmin, (req, res) => {
     (0, sqlite_3.addClient)(client, (err) => {
         if (err) {
             res.status(500).send("Database error");
+            console.log(err);
         }
         else {
-            res.redirect("/dashboard");
+            res.redirect("/");
         }
     });
 });
@@ -122,10 +123,10 @@ router.get("/dashboard/find", sesseur_1.checkAdmin, (req, res) => {
     sqlite_2.default.all("SELECT * FROM Client WHERE nom LIKE ? OR prenom LIKE ?", [`%${query}%`], (err, clients) => {
         if (err) {
             console.error(err);
-            res.status(500).send("Database error");
+            res.status(500).json({ error: "Database error" });
         }
         else {
-            res.render("dashboard", { clients, adminName: req.session.adminName });
+            res.json({ clients });
         }
     });
 });

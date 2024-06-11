@@ -143,9 +143,9 @@ router.get("/dashboard/find", checkAdmin, (req, res) => {
     db.all("SELECT * FROM Client WHERE nom LIKE ? OR prenom LIKE ?", [`%${query}%`], (err: Error | null, clients: any[]) => {
         if (err) {
             console.error(err);
-            res.status(500).send("Database error");
+            res.status(500).json({ error: "Database error" });
         } else {
-            res.render("dashboard", { clients, adminName: req.session.adminName }); 
+            res.json({ clients });
         }
     });
 });
