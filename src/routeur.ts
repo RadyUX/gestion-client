@@ -102,14 +102,14 @@ router.post("/dashboard/update/:id", checkAdmin, (req, res) => {
 // 
 
 // operation suppression du client
-router.post("/delete/:id", checkAdmin,(req, res) => {
+router.delete("/delete/:id", checkAdmin,(req, res) => {
     const id = parseInt(req.params.id, 10);
-    const adminName = req.params.se
+    const adminName = req.session.adminName
     deleteClient(id, (err: any) => {
         if (err) {
-            res.status(500).send("Database error");
+            res.status(500).json({ error: "Database error" });
         } else {
-            res.render("dashboard", {adminName});
+            res.status(200).json({ success: true });
          console.log()
         }
     });

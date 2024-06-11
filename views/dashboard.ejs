@@ -21,7 +21,7 @@
         <button type="submit" class="button logout-button">Déconnexion</button>
     </form>
     <a href="/dashboard/export" download>
-        <button class="button" class="save-mobile">Sauvegarder CSV</button>
+        <button id="button-mob" class="save-mobile">Sauvegarder CSV</button>
     </a>
 </nav>  
 
@@ -62,8 +62,8 @@
                     <td><%= client.adresse %></td>
                     <td class="btn-container">
              |
-                        <form action="/delete/<%= client.id %>" method="post" class="delete">
-                            <button type="submit"><img src="/delete.png" alt="" width="35px"/></button></form>
+    
+             <button class="delete-btn" data-id="<%= client.id %>"><img src="/delete.png" alt="" width="35px"/></button>
                             
                             <form action="/update/<%= client.id %>" method="post" class="delete">
                                 <button type="submit" ><img src="/editing.png" alt="" width="35px"/></button>
@@ -82,7 +82,7 @@
     </div>
 
 
-   
+   <script src="/ajax.js"></script>
   
 </body>
 </html>

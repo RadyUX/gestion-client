@@ -182,8 +182,9 @@ table {
    
   }
 
-  .save-mobile{
+ #button-mob{
     display: none;
+   
   }
 
 
@@ -198,8 +199,10 @@ table {
         display: none;
        
       }
-      .save-mobile{
+      #button-mob{
+        @extend .button;
         display: block;
+      
       }
 
       .logout-button-mobile{display: block;}
