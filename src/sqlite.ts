@@ -58,9 +58,8 @@ export const deleteClient = (id: number, callback: Function) => {
 
 //update client
 export const updateClient = (id: number, client: Client, callback: Function) => {
-    const hashedpassword = hashPassword(client.password)
     db.run("UPDATE Client SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ? WHERE id = ?",
-        [client.nom, client.prenom, client.email, client.telephone, client.adresse,  client.id],
+        [client.nom, client.prenom, client.email, client.telephone, client.adresse,  id],
         (err) => {
             callback(err);
         }

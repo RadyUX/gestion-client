@@ -50,12 +50,6 @@ router.post("/login", (req, res) => {
     });
 });
 
-// page d'acceuil 
-router.get('/acceuil', checkAdmin, (req, res) => {
-    res.render('acceuil', { adminName: req.session.adminName }); 
-});
-
-
 
 
 router.get("/logout", checkAdmin, (req, res) => {
@@ -87,17 +81,24 @@ router.get("/update/:id", checkAdmin, (req, res) => {
     });
 });
 // methode update du client specifique
-router.post("/dashboard/update/:id", checkAdmin, (req, res) => {
+router.put("/dashboard/update/:id", checkAdmin, (req, res) => {
     const id = parseInt(req.params.id, 10);
     const client = req.body;
+
+    console.log('Received update request for client:', id);
+    console.log('Client data:', client);
+
     updateClient(id, client, (err: any) => {
         if (err) {
             res.status(500).send("Database error");
+            console.log(err);
         } else {
-            res.redirect("/dashboard");
+            res.redirect("/");
+            console.log('Client updated successfully');
         }
     });
 });
+
 
 // 
 
@@ -123,7 +124,7 @@ router.post("/dashboard/add", checkAdmin, (req, res) => {
         if (err) {
             res.status(500).send("Database error");
         } else {
-            res.redirect("/dashboard");
+            res.redirect("/");
         }
     });
 });

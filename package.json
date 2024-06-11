@@ -12,11 +12,11 @@
     "start_dev": "pm2 start ecosystem.config.js --env development",
     "start_prod": "pm2 start ecosystem.config.js --env production",
     "sass-dev": "sass --watch scss/styles.scss:public/style.css --style=expanded"
-   
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/method-override": "^0.0.35",
     "@types/multer": "^1.4.11",
     "bcrypt": "^5.1.1",
     "connect-sqlite3": "^0.9.15",
@@ -25,6 +25,7 @@
     "express": "^4.19.2",
     "express-mysql-session": "^3.0.2",
     "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
     "multer": "^1.4.5-lts.1",
     "pm2": "^5.4.0",
     "sqlite3": "^5.1.7",

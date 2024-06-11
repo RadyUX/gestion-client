@@ -4,6 +4,7 @@ import url from 'url'
 import router from "./routeur"
 import sesseur from './sesseur'
 
+import methodOverride from 'method-override';
 
 const app: Express = express()
 
@@ -15,6 +16,8 @@ app.listen(PORT, () => {
 
 
 //middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
