@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        
     });
 
    
@@ -51,6 +53,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+const uploadForm = document.getElementById('uploadForm') as HTMLFormElement;
+uploadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(uploadForm);
+
+    const response = await fetch('/dashboard/import', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (response.ok) {
+        const newClients = await response.json();
+        updateClientTable(newClients);
+    } else {
+        console.error('Erreur lors de l\'importation du fichier CSV');
+    }
+});
 
 const searchClient = async (query: string) => {
     const res = await fetch(`/dashboard/find?query=${encodeURIComponent(query)}`);

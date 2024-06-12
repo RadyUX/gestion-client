@@ -8,8 +8,8 @@ const sesseur_1 = require("./sesseur");
 const sqlite_1 = require("./sqlite");
 const sqlite_2 = __importDefault(require("./sqlite"));
 const multer_1 = __importDefault(require("multer"));
-const parseur_1 = require("./parseur");
-const upload = (0, multer_1.default)({ dest: 'uploads/' });
+const csv_parser_1 = __importDefault(require("csv-parser"));
+const fs_1 = __importDefault(require("fs"));
 const sqlite_3 = require("./sqlite");
 const router = express_1.default.Router();
 //connecter ?non page de connexion si oui acceuil
@@ -155,6 +155,29 @@ router.get("/dashboard/export", sesseur_1.checkAdmin, (req, res) => {
         }
     });
 });
-router.post('/dashboard/import', sesseur_1.checkAdmin, upload.single('csvFile'), parseur_1.importClients);
+const upload = (0, multer_1.default)({ dest: 'uploads/' });
+router.post('/dashboard/import', sesseur_1.checkAdmin, upload.single('csvfile'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+    const clients = [];
+    fs_1.default.createReadStream(req.file.path)
+        .pipe((0, csv_parser_1.default)())
+        .on('data', (row) => {
+        clients.push(row);
+    })
+        .on('end', () => {
+        // Insérer les données du CSV dans la base de données
+        clients.forEach(client => {
+            (0, sqlite_3.addClient)(client, (err) => {
+                if (err) {
+                    console.error('Erreur lors de l\'ajout du client:', err);
+                }
+            });
+        });
+        fs_1.default.unlinkSync(req.file.path); // Supprimer le fichier temporaire après traitement
+        res.redirect('/dashboard'); // Rediriger vers le tableau de bord après l'importation
+    });
+});
 exports.default = router;
 //# sourceMappingURL=routeur.js.map

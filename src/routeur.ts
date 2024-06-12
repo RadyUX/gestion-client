@@ -3,9 +3,10 @@ import { checkAdmin, authAdmin } from "./sesseur"
 import { getAllClients } from "./sqlite";
 import db from "./sqlite";
 import multer from "multer";
-import { importClients } from "./parseur";
+import csv from "csv-parser";
+import fs from 'fs'
 
-const upload = multer({ dest: 'uploads/' });
+
 
 import { deleteClient, updateClient, addClient } from "./sqlite";
 interface Client{
@@ -179,5 +180,40 @@ router.get("/dashboard/export", checkAdmin, (req, res) => {
     });
 });
 
-router.post('/dashboard/import', checkAdmin, upload.single('csvFile'), importClients);
+
+const upload = multer({ dest: 'uploads/' });
+
+router.post('/dashboard/import', checkAdmin, upload.single('csvfile'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    const clients: Client[] = [];
+    fs.createReadStream(req.file.path)
+        .pipe(csv())
+        .on('data', (row) => {
+            const client: Client = {
+                id: row.id,
+                nom: row.nom,
+                prenom: row.prenom,
+                email: row.email,
+                telephone: row.telephone,
+                adresse: row.adresse,
+                password: row.password // Optionnel
+            };
+            clients.push(client);
+        })
+        .on('end', () => {
+            clients.forEach(client => {
+                addClient(client, (err: Error) => {
+                    if (err) {
+                        console.error('Erreur lors de l\'ajout du client:', err);
+                    }
+                });
+            });
+
+            fs.unlinkSync(req.file.path); // Supprimer le fichier temporaire après traitement
+            res.redirect('/dashboard'); // Rediriger vers le tableau de bord après l'importation
+        });
+});
 export default router

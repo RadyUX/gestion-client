@@ -1,7 +1,7 @@
 @charset "UTF-8";
 body {
-  margin: 0 30px;
-  background-color: #d1d1d1;
+  margin: 0;
+  background-color: #f6f8ff;
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -56,7 +56,7 @@ table th.r, table td.r {
 }
 table thead tr {
   height: 60px;
-  background: #FFED86;
+  background: #9bbbff;
   font-size: 22px;
 }
 table tbody tr {
@@ -120,7 +120,7 @@ table tbody tr:last-child {
 }
 .button, .logout-button {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #3686ff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -128,6 +128,7 @@ table tbody tr:last-child {
   font-size: 16px;
   text-decoration: none;
   display: inline-block;
+  margin: 10px;
 }
 
 .logout-button {
@@ -138,6 +139,9 @@ table tbody tr:last-child {
   justify-content: space-between;
   align-items: center;
   display: flex;
+  background-color: #9bbbff;
+  width: 100vw;
+  margin: 0;
 }
 .navbar .searchbar input {
   border-radius: 30px;
@@ -155,7 +159,7 @@ table tbody tr:last-child {
   background: transparent;
 }
 
-.save-mobile {
+#button-mob {
   display: none;
 }
 
@@ -170,7 +174,7 @@ table tbody tr:last-child {
   .hello {
     display: none;
   }
-  .save-mobile {
+  #button-mob {
     display: block;
   }
   .logout-button-mobile {

@@ -13,13 +13,13 @@
    <h1 class="hello">Bonjour <%= adminName %></h1> 
 
    <div class="searchbar">
-    <input type="text" id="searchInput" placeholder="Search..">
+    <input type="text" id="searchInput" placeholder="Search by name..">
     
 </div>
 
-    <form class="logout" href="/logout" method="get">
-        <button type="submit" class="button logout-button">Déconnexion</button>
-    </form>
+    
+        <a href="/logout" class="button logout-button">Déconnexion</a>
+    
     <a href="/dashboard/export" download>
         <button id="button-mob" class="save-mobile">Sauvegarder CSV</button>
     </a>
@@ -27,12 +27,12 @@
 
 <div class="upload">
      <img src="/cloud.png" alt="" class="icon" width="60px">
-     <form action="/dashboard/import" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+     <form action="/dashboard/import" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;" id="uploadForm">
         <input type="file" name="csvfile" accept=".csv" required>
         <button type="submit" class="button">Uploader CSV</button>
     </form>
    
-    <button onclick="location.href='/dashboard/addPage'" class="button"><img src="/plus.png" alt="plus" width="20"> Ajouter Client</button>
+    <button onclick="location.href='/dashboard/addPage'" class="button">Ajouter Client</button>
 
     
 

@@ -15,12 +15,15 @@ const db = new sqlite3.Database('./Clients.db')
 }
 export default db
 
-const saltRounds = 10; // You can adjust the number of rounds based on security and performance requirements
+ // You can adjust the number of rounds based on security and performance requirements
 
-function hashPassword(password: string) {
+ export function hashPassword(password?: string): string {
+    if (!password) {
+        return ''; // Retournez une chaîne vide si le mot de passe n'est pas défini
+    }
+    const saltRounds = 10;
     return bcrypt.hashSync(password, saltRounds);
 }
- 
 //CRUD CLIENT
 
 //get list client
